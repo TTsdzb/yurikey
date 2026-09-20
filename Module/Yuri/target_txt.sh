@@ -67,8 +67,9 @@ add_packages() {
     echo "$pkgs" | cut -d ":" -f 2 | while read -r pkg; do
         if [ -n "$pkg" ] && ! grep -q "^$pkg" "$t"; then
             if [ "$teeBroken" = "true" ]; then
-                if ! echo "$pkg?" >> "$t"; then
-                    log_message "Error: Failed to write $pkg? to $t"
+                # Broken TEE cannot provide a leaf certificate: force generation mode.
+                if ! echo "$pkg!" >> "$t"; then
+                    log_message "Error: Failed to write $pkg! to $t"
                     return 1
                 fi
             else

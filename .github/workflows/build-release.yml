@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Run regression tests
+        run: python3 -m unittest discover -s tests -v
+
       - name: Extract version
         id: version
         run: |
@@ -33,16 +36,6 @@ jobs:
           sed -i "s/^version=.*/version=${{ steps.version.outputs.version }}/" Module/module.prop
           sed -i "s/^versionCode=.*/versionCode=${{ steps.version.outputs.version_code }}/" Module/module.prop
 
-      - name: Update update.json
-        run: |
-          ZIP_URL="https://github.com/Yurii0307/yurikey/releases/download/${{ steps.version.outputs.version }}/Yurikey-${{ steps.version.outputs.version }}.signed.zip"
-          
-          jq --arg v "${{ steps.version.outputs.raw_version }}" \
-             --argjson vc "${{ steps.version.outputs.version_code }}" \
-             --arg url "$ZIP_URL" \
-             '.version = $v | .versionCode = $vc | .zipUrl = $url' \
-             update.json > update_tmp.json && mv update_tmp.json update.json
- 
       - name: Zip Module folder (Upload module)
         run: |
           cd Module
@@ -53,7 +46,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add Module/module.prop update.json
+          git add Module/module.prop
 
           if git diff --cached --quiet; then
             echo "No changes to commit"

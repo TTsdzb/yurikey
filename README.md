@@ -1,3 +1,35 @@
+# YuriKey — Action-only fork
+
+Personal fork of [Yurii0307/yurikey](https://github.com/Yurii0307/yurikey).
+
+This build only exposes installation and the root manager Action button. The boot
+service and uninstall hook remain. WebUI, its assets and device-info collection,
+optional cleanup/reset scripts, HMA/Zygisk/RKA configuration helpers, and the
+Widevine provisioning scripts and bundled key material have been removed.
+
+The upstream automatic update feed is disabled so it cannot reinstall the full
+upstream build. Build/install this fork explicitly; upstream release downloads
+are not Action-only builds.
+
+Fixes:
+- For `teeBroken=true`, newly enumerated packages use `!` (certificate generation)
+  instead of `?` (leaf hack). Existing fixed-target mode choices remain unchanged.
+- Download failures propagate correctly, HTTP errors fail, and empty/invalid
+  Base64 responses cannot replace the current keybox. Keybox backup/replacement
+  happens only after successful download and decoding. This is not XML or
+  certificate-chain validation.
+
+Action still stops the Play Store, rewrites Tricky Store targets/patch dates,
+sets the boot hash, downloads the upstream keybox, and invokes installed PIF
+scripts. The boot service still changes system properties. This fork does not
+claim to make those retained operations risk-free or verify integrity results.
+
+Run local regression tests with `python3 -m unittest discover -s tests -v`.
+
+## Upstream documentation and credits
+
+The following is the original documentation; its downloads refer to upstream.
+
 # YuriKey
 ![Artifacts](./doc/banner.webp)
 
@@ -40,30 +72,21 @@ https://t.me/yurikernel
 > If you get errors similar to the ones below in action.sh or in module installations, you may need to install the modules below them.
 >
 > For the error on the side
-> 
+>
 > `ERROR: Tricky Store module not found!`:
 > [Tricky Store](https://github.com/5ec1cff/TrickyStore/releases/latest)
-> 
+>
 > For the error on the side
 >
 > `ERROR: Keybox updated failed!`:
 > [BusyBox](https://mmrl.dev/repository/grdoglgmr/busybox-ndk)
 
 ## Contributors
-[Yuri](https://github.com/Yurii0307)  
-[Tam](https://github.com/Tam97123)  
-[yourbestregard](https://github.com/yourbestregard)  
-[cvnertnc](https://github.com/cvnertnc)  
-[ZG089](https://github.com/ZG089)  
-[Munch](https://github.com/SudoNothing404)  
-[Wes](https://github.com/ihatenodejs)  
-[Khx](https://github.com/dpejoh)  
-
-
-
-
-
-
-
-
-
+[Yuri](https://github.com/Yurii0307)
+[Tam](https://github.com/Tam97123)
+[yourbestregard](https://github.com/yourbestregard)
+[cvnertnc](https://github.com/cvnertnc)
+[ZG089](https://github.com/ZG089)
+[Munch](https://github.com/SudoNothing404)
+[Wes](https://github.com/ihatenodejs)
+[Khx](https://github.com/dpejoh)

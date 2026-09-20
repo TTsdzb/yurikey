@@ -16,6 +16,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Run regression tests
+        run: python3 -m unittest discover -s tests -v
+
       - name: Update version with git HEAD
         run: |
           RANDOM_STRING=$(git rev-parse --short HEAD | cut -c1-7)
