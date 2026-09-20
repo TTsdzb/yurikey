@@ -1,6 +1,6 @@
 id=Yurikey
 name=Yurikey (Action only)
-version=v3.0.5
-versionCode=305
+version=v3.0.7-action-only
+versionCode=307
 author=Yurikey Dev
 description=Installation and Action only; WebUI and optional actions removed.
